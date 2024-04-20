@@ -98,6 +98,7 @@ run "Install Volatility3" "
   sudo ln -s /opt/volatility3/vol.py /usr/bin/vol.py
 "
 run "Install Z3 Solver" "pip install z3-solver"
+run "Install Flask-Unsign" "pip install flask-unsign"
 
 #=========================
 # Other packages / tools (compile from source / self-contained)
