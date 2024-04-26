@@ -78,6 +78,7 @@ run "Install The Sleuth Kit" "sudo apt-get install -y sleuthkit"
 run "Install exiftool" "sudo apt-get install -y exiftool"
 run "Install binwalk" "sudo apt-get install -y binwalk"
 run "Install patchelf" "sudo apt-get install -y patchelf"
+run "Install Sonic Visualiser" "sudo apt-get install -y sonic-visualiser"
 
 #=========================
 # Python-dependent packages / tools
@@ -85,6 +86,7 @@ run "Install patchelf" "sudo apt-get install -y patchelf"
 run "Install Python" "sudo apt-get install -y python3 python3-pip"
 run "Install Chepy" "pip install chepy[extras]"
 run "Install pwntools" "pip install --no-warn-script-location pwntools"
+run "Install angr" "pip install angr"
 run "Install Volatility3" "
   git clone https://github.com/volatilityfoundation/volatility3.git
   cd volatility3
