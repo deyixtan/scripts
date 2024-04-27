@@ -48,7 +48,7 @@ run() {
 sudo true # force sudo password prompt
 run "Install essential packages" "
   sudo apt-get update
-  sudo apt-get install -y libc6:i386 vim xclip gcc
+  sudo apt-get install -y libc6:i386 vim mousepad xclip curl wget gcc
 "
 
 #=========================
@@ -74,11 +74,17 @@ run "Install Docker" "
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   sudo usermod -aG docker $USER
 "
+run "Install LibreOffice" "sudo apt-get install -y libreoffice"
+run "Install Wireshark" "
+  echo \"wireshark-common wireshark-common/install-setuid boolean true\" | sudo debconf-set-selections
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -y install wireshark
+"
 run "Install The Sleuth Kit" "sudo apt-get install -y sleuthkit"
 run "Install exiftool" "sudo apt-get install -y exiftool"
 run "Install binwalk" "sudo apt-get install -y binwalk"
 run "Install patchelf" "sudo apt-get install -y patchelf"
 run "Install Sonic Visualiser" "sudo apt-get install -y sonic-visualiser"
+run "Install checksec" "sudo apt-get install -y checksec"
 
 #=========================
 # Python-dependent packages / tools
@@ -105,6 +111,11 @@ run "Install Flask-Unsign" "pip install flask-unsign"
 #=========================
 # Other packages / tools (compile from source / self-contained)
 #=========================
+run "Install Node.js" "
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  eval \"\$(cat ~/.bashrc | tail -n +10)\" # equivalent to 'source ~/.bashrc'
+  nvm install --lts
+"
 run "Install SecLists" "
   git clone https://github.com/danielmiessler/SecLists.git
   sudo mv SecLists /opt/
@@ -153,4 +164,18 @@ run "Install upx" "
   rm -f upx*amd64_linux.tar.xz
   find . -maxdepth 1 -type d -name upx*amd64_linux -exec sudo mv {} /opt/ \;
   sudo ln -s /opt/upx*amd64_linux/upx /usr/bin/upx
+"
+run "Install Stegsolve" "
+  mkdir stegsolve
+  echo '#!/usr/bin/java -jar' > stegsolve/stegsolve.jar
+  wget -O tmp_stegsolve.jar http://www.caesum.com/handbook/Stegsolve.jar
+  cat tmp_stegsolve.jar >> stegsolve/stegsolve.jar
+  rm -f tmp_stegsolve.jar
+  chmod +x stegsolve/stegsolve.jar
+  sudo mv stegsolve /opt/
+  sudo ln -s /opt/stegsolve/stegsolve.jar /usr/bin/stegsolve
+"
+run "Install zsteg" "
+  sudo apt-get install -y ruby-full
+  sudo gem install zsteg
 "
