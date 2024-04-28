@@ -48,12 +48,13 @@ run() {
 sudo true # force sudo password prompt
 run "Install essential packages" "
   sudo apt-get update
-  sudo apt-get install -y libc6:i386 vim mousepad xclip curl wget gcc
+  sudo apt-get install -y libc6:i386 vim mousepad xclip curl wget gcc jq
 "
 
 #=========================
 # APT-dependent packages / tools
 #=========================
+run "Install flameshot" "sudo apt-get install -y flameshot"
 run "Install Visual Studio Code" "
   sudo apt-get install -y wget gpg
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -85,6 +86,7 @@ run "Install binwalk" "sudo apt-get install -y binwalk"
 run "Install patchelf" "sudo apt-get install -y patchelf"
 run "Install Sonic Visualiser" "sudo apt-get install -y sonic-visualiser"
 run "Install checksec" "sudo apt-get install -y checksec"
+run "Install gobuster" "sudo apt-get install -y gobuster"
 
 #=========================
 # Python-dependent packages / tools
