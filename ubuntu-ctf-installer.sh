@@ -80,6 +80,7 @@ run "Install Wireshark" "
   echo \"wireshark-common wireshark-common/install-setuid boolean true\" | sudo debconf-set-selections
   sudo DEBIAN_FRONTEND=noninteractive apt-get -y install wireshark
 "
+run "Install TShark" "sudo apt-get install -y tshark"
 run "Install The Sleuth Kit" "sudo apt-get install -y sleuthkit"
 run "Install exiftool" "sudo apt-get install -y exiftool"
 run "Install binwalk" "sudo apt-get install -y binwalk"
