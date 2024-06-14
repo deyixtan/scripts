@@ -9,7 +9,7 @@ run() {
     local reset_text="\033[0m"
     local green_text="\033[0;32m"
     local red_text="\033[0;31m"
-    
+
     local output_log="../output.log"
     local error_log="../error.log"
 
@@ -21,7 +21,7 @@ run() {
 
     # Extract the commands into an array ($2)
     IFS=$'\n' read -r -d '' -a commands <<< "$2"
-    
+
     # Execute each command
     echo "##################################################"
     echo "$description"
@@ -29,7 +29,7 @@ run() {
     for cmd in "${commands[@]}"; do
         cmd=$(echo $cmd | awk '{$1=$1;print}')
         echo -n "[$(date +"%H:%M:%S")] $cmd"
-        
+
         eval "$cmd" >> "$output_log" 2>> "$error_log"
         if [ $? -ne 0 ]; then
             echo -e " ... ${red_text}FAIL${reset_text}"
@@ -47,6 +47,7 @@ run() {
 
 sudo true # force sudo password prompt
 run "Install essential packages" "
+  sudo dpkg  --add-architecture i386
   sudo apt-get update
   sudo apt-get install -y libc6:i386 vim mousepad xclip curl wget gcc jq
 "
@@ -62,7 +63,7 @@ run "Install Visual Studio Code" "
   sudo sh -c 'echo \"deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main\" > /etc/apt/sources.list.d/vscode.list'
   rm -f packages.microsoft.gpg
   sudo apt-get update
-  sudo apt-get install apt-transport-https
+  sudo apt-get install -y apt-transport-https
   sudo apt-get install -y code
 "
 run "Install Docker" "
@@ -92,7 +93,12 @@ run "Install gobuster" "sudo apt-get install -y gobuster"
 #=========================
 # Python-dependent packages / tools
 #=========================
-run "Install Python" "sudo apt-get install -y python3 python3-pip"
+run "Install Python" "
+  sudo apt-get install -y python3 python3-pip python3-venv
+  python3 -m venv ~/.venvs/ctf
+  source ~/.venvs/ctf/bin/activate
+  echo \"source ~/.venvs/ctf/bin/activate\" >> ~/.bashrc
+"
 run "Install Chepy" "pip install chepy[extras]"
 run "Install pwntools" "pip install --no-warn-script-location pwntools"
 run "Install angr" "pip install angr"
@@ -145,6 +151,7 @@ run "Install IDA Free" "
   ./idafree84_linux.run --prefix ./idafree-8.4/ --mode unattended
   sudo mv idafree-8.4 /opt/
   sudo ln -s /opt/idafree-8.4/ida64 /usr/bin/ida
+  find ~/Desktop -name \"IDA Freeware*.desktop\" -exec rm -f {} \;
 "
 run "Install Ghidra" "
   sudo apt-get install -y openjdk-17-jdk
