@@ -99,6 +99,7 @@ run "Install Python" "
   source ~/.venvs/ctf/bin/activate
   echo \"source ~/.venvs/ctf/bin/activate\" >> ~/.bashrc
 "
+run "Install Material for MkDocs" "pip install mkdocs-material"
 run "Install Chepy" "pip install chepy[extras]"
 run "Install pwntools" "pip install --no-warn-script-location pwntools"
 run "Install angr" "pip install angr"
