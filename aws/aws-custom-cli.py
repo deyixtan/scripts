@@ -247,9 +247,9 @@ def list_s3_files_metadata():
                                 content_type = metadata.get("ContentType", "Unknown")
                             except botocore.exceptions.ClientError:
                                 content_type = "Unknown"
-                            print(f"  - {file_name} ({content_type}, {file_size} bytes, Last Modified @ {last_modified})")
+                            print(f"    - {file_name} ({content_type}, {file_size} bytes, Last Modified @ {last_modified})")
                     else:
-                        print("  - No files found in this bucket.")
+                        print("    - No files found in this bucket.")
                 except Exception as e:
                     print(f"  - Error accessing bucket {bucket_name}: {e}")
         else:
